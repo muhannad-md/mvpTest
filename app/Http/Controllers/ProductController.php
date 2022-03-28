@@ -132,39 +132,42 @@ class ProductController extends Controller
         
         $product = Product::find($request->product_id);
 
-        if($product){
-            
-            $total = $product->cost * $request->amount;
-
-            if($product->amount < $request->amount){
-                return response()->json([
-                    'message' => 'Not enough products.'
-                ], 200);
-            }
-
-            if($user->deposit < $total){
-                return response()->json([
-                    'message' => 'Not enough money.'
-                ], 200);
-            }
-
-            $product->update([
-                'amount' => $product->amount - $request->amount,
-            ]);
-
-            $user->update([
-                'deposit' => $user->deposit - $total,
-            ]);
-            
-
-            $change = User::calculateChange($user->deposit);
-
+        if(!$product){
             return response()->json([
-                'total' => $total,
-                'product' => new ProductResource($product),
-                'change' => $change,
+                'message' => 'Product was not found.',
+            ], 400);
+        }
+            
+        $total = $product->cost * $request->amount;
+
+        if($product->amount < $request->amount){
+            return response()->json([
+                'message' => 'Not enough products.'
             ], 200);
         }
+
+        if($user->deposit < $total){
+            return response()->json([
+                'message' => 'Not enough money.'
+            ], 200);
+        }
+
+        $product->update([
+            'amount' => $product->amount - $request->amount,
+        ]);
+
+        $user->update([
+            'deposit' => $user->deposit - $total,
+        ]);
+        
+
+        $change = User::calculateChange($user->deposit);
+
+        return response()->json([
+            'total' => $total,
+            'product' => new ProductResource($product),
+            'change' => $change,
+        ], 200);
 
     }
 }

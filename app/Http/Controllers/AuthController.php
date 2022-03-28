@@ -30,12 +30,14 @@ class AuthController extends Controller
             if($userToken != $token && $token->revoked == 0)
                 $has_previous_login = 1;
         }
+        $has_previous_login ? $message = 'There is already an active session using your account.': $message = '';
         
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
         return response()->json([
             'user' => new UserResource(Auth::user()),
             'access_token' => $accessToken,
+            'message' => $message,
             'previous_login' => (string)$has_previous_login,
         ], 400);
 

@@ -39,7 +39,7 @@ class AuthController extends Controller
             'access_token' => $accessToken,
             'message' => $message,
             'previous_login' => (string)$has_previous_login,
-        ], 400);
+        ], 200);
 
     }
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
         return response()->json([
             'user' => new UserResource(Auth::user()),
             'access_token' => $accessToken,
-        ], 400);
+        ], 200);
 
     }
 

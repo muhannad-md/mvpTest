@@ -24,7 +24,9 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255'
+            'name' => 'required|string|max:255',
+            'amount' => ['required', 'integer'],
+            'cost' => ['required', 'integer', new \App\Rules\CostRule],
         ];
     }
 }

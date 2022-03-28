@@ -130,7 +130,8 @@ class UserController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Deposit Added.'
+            'message' => 'Deposit Added.',
+            'deposit' => $user->deposit,
         ], 200);
     }
 

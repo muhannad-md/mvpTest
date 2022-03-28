@@ -25,6 +25,9 @@ class CostRule implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(!is_numeric($value))
+            return true;
+        
         $this->attribute = $attribute;
         return $value % 5 == 0;
     }

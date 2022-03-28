@@ -25,6 +25,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'amount' => ['required', 'integer'],
             'cost' => ['required', 'integer', new \App\Rules\CostRule],
         ];
     }

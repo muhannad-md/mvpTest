@@ -122,7 +122,7 @@ class UserController extends Controller
             throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
 
         $request->validate([
-            'deposit' => ['required', 'integer', new \App\Rules\CostRule],
+            'deposit' => ['required', 'integer', new \App\Rules\CostRule, 'in:5,10,20,50,100'],
         ]);
 
         $user->update([
